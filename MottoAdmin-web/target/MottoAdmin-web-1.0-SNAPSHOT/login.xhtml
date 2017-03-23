@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/secure/template/mainTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <p:fieldset >
+            <h:form id="loginForm">
+                <p:growl showDetail="true" id="messages"/>
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="userNameLabel" for="userNameInput" value="Kullanıcı Adı  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText placeholder="Kullanıcı adını giriniz" value="#{loginManagedBean.siteUser.userName}" id="userNameInput"
+                                    />
+                    </div>
+                </div>
+                
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="passwordLabel" for="passwordInput" value="Şifre  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:password placeholder="Şifrenizi giriniz" value="#{loginManagedBean.siteUser.password}" id="passwordInput"
+                                    />
+                    </div>
+                </div>
+                
+                
+                
+                 <div class="formRowBasic width90">
+                    <div class="formLabel width70"></div>
+                    <div class="formInput width20">
+                        <p:commandButton action="#{loginManagedBean.loginUser()}" value="Giriş"  update="messages"/>
+                    </div>
+                </div>
+                
+            </h:form>
+        </p:fieldset>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="photo_service_mongo_db_pu" transaction-type="RESOURCE_LOCAL">
+    <description>Photo Service Hibernate OGM persistence XMl</description>
+    <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+    <non-jta-data-source/>
+    <class>com.fsatir.types.Media</class>
+    <class>com.fsatir.types.PhotoCategory</class>
+    <class>com.fsatir.types.SiteUser</class>
+    <class>com.fatihsatir.entity.Company</class>
+    <class>com.fsatir.types.Brand</class>
+    <class>com.fsatir.types.Company</class>
+    <class>com.fsatir.types.Inventory</class>
+    <class>com.fsatir.types.Location</class>
+    <class>com.fsatir.types.Product</class>
+    <class>com.fsatir.types.ProductCategory</class>
+    <class>com.fsatir.types.Store</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.ogm.datastore.provider" value="mongodb"/>
+      <property name="hibernate.ogm.datastore.database" value="photoservice"/>
+      <property name="hibernate.ogm.datastore.create_database" value="true"/>
+      <property name="hibernate.classloading.use_current_tccl_as_parent" value="false"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
+</persistence>

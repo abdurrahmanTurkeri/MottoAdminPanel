@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+
+   <ui:define name="content">
+        <h:form id="insertForm">
+            <p:fieldset>
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="emailLabel" for="email" value="Email  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText placeholder="Email  adresini giriniz" value="#{userManagedBean.siteUser.email}" id="email"
+                                    />
+                    </div>
+                </div>
+                
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="nameLabel" for="nameInput" value="İsim  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText placeholder="İsmi  giriniz" value="#{userManagedBean.siteUser.firstName}" id="nameInput"
+                                    />
+                    </div>
+                </div>
+                
+                 <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="lastNameLabel" for="lastNameInput" value="Soyisim  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText placeholder="Soyisimini giriniz" value="#{userManagedBean.siteUser.lastName}" id="lastNameInput"
+                                    />
+                    </div>
+                </div>
+                
+                  <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="mobilePhoneLabel" for="mobilePhone" value="Telefon  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText placeholder="Telefon numarasını giriniz" value="#{userManagedBean.siteUser.mobilePhone}" id="mobilePhone"
+                                    />
+                    </div>
+                </div>
+                
+                 <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="userNameLabel" for="userNameInput" value="Kullanıcı Adı  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText placeholder="Kullanıcı  Adını giriniz" value="#{userManagedBean.siteUser.userName}" id="userNameInput"
+                                    />
+                    </div>
+                </div>
+                
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="passwordLabel" for="passwordInput" value="Şifre  "/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:password placeholder="Şifre giriniz" value="#{userManagedBean.siteUser.password}"  match="passwordInputMatch" id="passwordInput"
+                                    />
+                    </div>
+                </div>
+                
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="passwordLabelMatch" for="passwordInputMatch" value="Şifre Tekrar"/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:password placeholder="Şifre tekrarı giriniz"  
+                                    value="#{userManagedBean.siteUser.passwordMatch}" id="passwordInputMatch"/>
+                    </div>
+                </div>
+                
+                
+               
+                <div class="formRowBasic width90">
+                    <div class="formLabel width70"></div>
+                    <div class="formInput width20">
+                        <p:commandButton action="#{userManagedBean.saveUser()}" value="Kullanıcıyı Kaydet" update=":userList"/>
+                    </div>
+                </div>
+            </p:fieldset>
+        </h:form>
+
+       <p:dataTable resizableColumns="true" id="userList" var="user" value="#{userManagedBean.userList}">
+           <p:column headerText="Email Adresi">#{user.email}</p:column>
+           <p:column headerText="İsim  ">#{user.firstName}</p:column>
+           <p:column headerText="Soyisim">#{user.lastName}</p:column>
+           <p:column headerText="Telefon">#{user.mobilePhone}</p:column>
+           <p:column headerText="Kullanıcı Adı">#{user.userName}</p:column>
+           <p:column headerText="Şifre">#{user.password}</p:column>
+           
+         
+        </p:dataTable>
+
+       
+
+    </ui:define>
+
+</ui:composition>

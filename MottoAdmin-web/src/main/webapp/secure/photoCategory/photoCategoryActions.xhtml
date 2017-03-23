@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form id="insertForm">
+            <p:fieldset>
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="nameInputLabel" for="nameInput" value="Kategori İsmi"/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText value="#{categoryManagedBean.photoCategory.name}" id="nameInput"
+                                     placeholder="Kategori için uygun isim giriniz"/>
+                    </div>
+                </div>
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">  
+                        <p:outputLabel id="labelInputLabel" for="labelInput" value="Kategori Etiketi"/>
+
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText value="#{categoryManagedBean.photoCategory.label}" placeholder="Görünecek isim Giriniz" id="labelInput"/>
+                    </div>      
+                </div>   
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">  
+                        <p:outputLabel id="rateLabel" for="rateInput" value="Öndem Sırası"/>
+                    </div>
+                    <div class="formInput width50"> 
+                        <p:inputText value="#{categoryManagedBean.photoCategory.categoryRate}" placeholder="Önem Sırası Giriniz" id="rateInput"/>
+                    </div>
+                </div>
+                <div class="formRowBasic width70">   
+                    <div class="formLabel width40">  
+                        <p:outputLabel id="orderLabel" for="orderInput" value="Menu Sırası"/>
+                    </div>
+                    <div class="formInput width50"> 
+                        <p:inputText value="#{categoryManagedBean.photoCategory.categoryRate}" placeholder="Menü Sırası Giriniz" id="orderInput"/>
+                    </div>
+                </div>
+                <div class="formRowBasic width90">
+                    <div class="formLabel width70"></div>
+                    <div class="formInput width20">
+                        <p:commandButton action="#{categoryManagedBean.saveCategory()}" value="Kategoriyi Kaydet" update=":insertForm:categoryList"/>
+                    </div>
+                </div>
+            </p:fieldset>
+        
+
+        <p:contextMenu for="categoryList">
+            <p:menuitem value="Fetvalar" update=":insertForm:fetvaList" icon="ui-icon-search" actionListener="#{categoryManagedBean.showFetvaList()}" />
+            <p:menuitem value="Sil" update=":insertForm:categoryList" icon="ui-icon-close" actionListener="#{categoryManagedBean.deleteCategory()}"/>
+        </p:contextMenu>
+
+        <p:dataTable resizableColumns="true" id="categoryList" var="category" 
+                     value="#{categoryManagedBean.categoryList}" 
+                     rowKey="#{category.categoryRate}"
+                     selection="#{categoryManagedBean.selectedCategory}" selectionMode="single">
+            <p:ajax event="rowDblselect" listener="#{categoryManagedBean.fillSelectedCategory(category)}" update=":insertForm"/>
+            <p:column headerText="Id" style="width: 100px;">#{category.id}</p:column>
+            <p:column headerText="İsim">#{category.name}</p:column>
+            <p:column headerText="Etiket ">#{category.label}</p:column>
+            <p:column headerText="Kategori Sıra">#{category.categoryOrder}</p:column>
+            <p:column headerText="Önem Seviyesi" >#{category.categoryRate}</p:column>
+        </p:dataTable>
+
+        <p:dialog id="fetvaList" header="Fetva Listesi">
+
+        </p:dialog>
+     </h:form>       
+
+    </ui:define>
+
+</ui:composition>

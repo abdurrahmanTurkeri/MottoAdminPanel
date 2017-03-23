@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 template="./../template/mainTemplate.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="content">
+        <p:growl id="messages" showDetail="true"  />
+       
+        <p:dataTable resizableColumns="true" id="fileList" var="trendImage" value="#{twitterManagedBean.trendImagesList}">
+            <p:column headerText="Favori Adeti">#{trendImage.favorite_count}</p:column>
+            <p:column headerText="RT Adeti">#{trendImage.retweet_count}</p:column>
+            <p:column headerText="İmaj"><p:graphicImage value="#{trendImage.trendImgURL}" /></p:column>
+            <p:column headerText="Post Eden ">#{trendImage.user_screenName}</p:column>
+            <p:column headerText="İşlemler">
+                <p:button onclick="" value="Görüntüle"/>
+
+            </p:column>
+
+
+        </p:dataTable>
+
+
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,109 @@
+body {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: 10px;
+}
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  16px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #D20005;
+}
+
+a:link, a:visited {
+  color: #045491;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+  color: #045491;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+.btn{
+    margin-left: 10px;
+    position:relative;
+    display:inline-block;
+    padding:5px 10px;
+    font-size:13px;
+    font-weight:bold;
+    line-height:18px;
+    color:white!important;
+    text-shadow:0 1px 1px rgba(255,255,255,.5);
+    background-color:#ccc;
+    background-repeat:no-repeat;
+    border:1px solid #ccc;
+    cursor:pointer;
+    border-radius:4px;
+    -webkit-box-shadow:0 1px 0 rgba(255,255,255,.5);
+    box-shadow:0 1px 0 rgba(255,255,255,.5)}
+.ie9 .btn{border-radius:0}
+.no-shadow{-webkit-box-shadow:none;box-shadow:none}
+
+.btn:hover{
+    text-decoration: none!important;
+    zoom: 1.01;
+}
+
+.formRowBasic{
+   display: inline-block!important;
+   line-height: 30px;
+}
+.width10{
+    width: 10%;
+}
+.width20{
+    width: 20%;
+}
+.width30{
+    width: 30%;
+}
+.width40{
+    width: 40%;
+}
+.width50{
+    width: 50%;
+}
+.width60{
+    width: 60%;
+}
+.width70{
+    width: 70%;
+}
+.width80{
+    width: 80%;
+}
+.width90{
+    width: 90%;
+}
+.width100{
+    width: 100%;
+}
+.formLabel{
+    display: inline-block;
+}
+.formLabel label{
+    font-weight: bold;text-align: center;margin: 10px;
+}
+.formInput{
+    display: inline-block;
+}
+
+.formInput input{
+    width: 70%;
+}
+
+/* CUSTOM CSS*/
+.ui-messages-info, .ui-message-info {
+    color: #ffffff !important;
+    background-color: #1abc9c !important;
+    border-color: #bce8f1 !important;
+}
