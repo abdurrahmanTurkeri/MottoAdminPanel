@@ -35,6 +35,7 @@ public class Location implements Serializable {
     
     private String label;
 
+    
     public String getId() {
         return id;
     }

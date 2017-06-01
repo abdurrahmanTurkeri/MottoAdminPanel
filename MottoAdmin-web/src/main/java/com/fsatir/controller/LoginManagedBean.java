@@ -34,7 +34,7 @@ public class LoginManagedBean {
 
     private SiteUser siteUser = new SiteUser();
     
-    private static final String  HOME_URL_WELCOME="/faces/secure/index.jsf";
+    private static final String  HOME_URL_WELCOME="/MottoAdmin-web/secure/index.jsf";
     private static final String  HOME_URL_BYE=FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath();
 
     /**

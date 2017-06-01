@@ -74,10 +74,12 @@ public class LocationServiceImpl extends BaseServiceImpl implements LocationServ
     @Override
     public void deleteLocation(Location location) throws Exception {
         em = accessEntityManager();
-        em.getTransaction().begin();
-        em.remove(location);
+        em.getTransaction().begin();   
+      //  em.remove(location);
+        em.remove(em.contains(location) ? location : em.merge(location));
         em.getTransaction().commit();
         em.close(); 
+        
     }
 
     @Override

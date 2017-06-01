@@ -30,7 +30,8 @@ public class Company implements Serializable {
     private String id;
     
     private String name;
-
+    
+    
     @ManyToOne(cascade = CascadeType.ALL,targetEntity = Brand.class)
     private List<Brand> brandList;
     

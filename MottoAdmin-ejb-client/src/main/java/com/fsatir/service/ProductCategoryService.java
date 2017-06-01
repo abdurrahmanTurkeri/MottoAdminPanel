@@ -18,6 +18,10 @@ public interface ProductCategoryService extends BaseService{
     
     public List<ProductCategory> listOfCategoryByBrand(String brandId);
     
+    public List<ProductCategory> listOfLeafCategory();
+    
     public void deleteCategory(ProductCategory productCategory) throws Exception ;
+    
+    public void updateUpperCategory(ProductCategory productCategory, ProductCategory upperCategory);
     
 }

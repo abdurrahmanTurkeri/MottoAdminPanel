@@ -65,7 +65,7 @@
             <p:column headerText="Latitude">#{location.latitudeValue}</p:column>
             <p:column headerText="Adres Detay" >#{location.exactAddressDesc}</p:column>
             <p:column  headerText="Aksiyon">
-                <p:commandButton action="#{locationBean.deleteLocation()}" value="Sil"/> 
+                <p:commandButton action="#{locationBean.deleteLocation()}" value="Sil" update=":insertForm:categoryList" /> 
             </p:column>
         </p:dataTable>
 

@@ -32,16 +32,17 @@ public class Product implements Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
-    private String url;
     
     private String name;
  
-    @ManyToMany(targetEntity = ProductCategory.class)
-    private List<ProductCategory> categoryList;
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER )
+    private ProductCategory productCategory;
     
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Media.class)
-    private List<Media> mediaList;
+    private String imageUrl;
+    
+    private String assetUrl;
+    
+    private String assetName;
     
     @OneToOne(fetch = FetchType.EAGER)
     private SiteUser siteUser;
@@ -57,14 +58,6 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getName() {
         return name;
     }
@@ -73,13 +66,6 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public List<ProductCategory> getCategoryList() {
-        return categoryList;
-    }
-
-    public void setCategoryList(List<ProductCategory> categoryList) {
-        this.categoryList = categoryList;
-    }
 
     public SiteUser getSiteUser() {
         return siteUser;
@@ -89,14 +75,6 @@ public class Product implements Serializable {
         this.siteUser = siteUser;
     }
 
-    public List<Media> getMediaList() {
-        return mediaList;
-    }
-
-    public void setMediaList(List<Media> mediaList) {
-        this.mediaList = mediaList;
-    }
-
     public Inventory getInventory() {
         return inventory;
     }
@@ -104,9 +82,39 @@ public class Product implements Serializable {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
-    
-    
-   
-    
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getAssetUrl() {
+        return assetUrl;
+    }
+
+    public void setAssetUrl(String assetUrl) {
+        this.assetUrl = assetUrl;
+    }
+
+    public String getAssetName() {
+        return assetName;
+    }
+
+    public void setAssetName(String assetName) {
+        this.assetName = assetName;
+    }
+
+
 
 }

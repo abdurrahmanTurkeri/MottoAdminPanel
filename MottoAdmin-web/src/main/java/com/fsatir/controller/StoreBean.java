@@ -7,6 +7,7 @@ package com.fsatir.controller;
 
 import com.fsatir.service.LocationService;
 import com.fsatir.service.StoreService;
+import com.fsatir.types.Location;
 import com.fsatir.types.Store;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -24,11 +26,11 @@ import javax.inject.Inject;
  */
 @Named(value = "storeBean")
 @javax.faces.view.ViewScoped
-public class StoreBean implements Serializable{
+public class StoreBean implements Serializable {
 
     @Inject
     LocationService locationService;
-    
+
     @Inject
     StoreService service;
 
@@ -36,32 +38,29 @@ public class StoreBean implements Serializable{
     private Store selectedStore;
 
     private List<Store> storeList;
-    
-    
+    private List<Location> locationList;
 
-   
-    
-    
     /**
      * Creates a new instance of FetvaCayegoryManagedBean
      */
     public StoreBean() {
+
     }
 
     @PostConstruct
     public void init() {
+        System.out.println("StoreBean Sayfası");
         storeList = service.listOfStore();
     }
-    
-     
 
     public void saveStore() {
         try {
             service.saveStore(store);
+            storeList = service.listOfStore();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeList", storeList);
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
         }
-        //locationList = service.listOfLocation();
 
     }
 
@@ -70,6 +69,7 @@ public class StoreBean implements Serializable{
         try {
             service.deleteStore(selectedStore);
             storeList = service.listOfStore();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("storeList", storeList);
         } catch (Exception ex) {
             ex.printStackTrace();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
@@ -77,7 +77,23 @@ public class StoreBean implements Serializable{
         }
 
     }
-    
+
+    public List<Location> completeLocation(String query) {
+        locationList = (List<Location>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("locationList");
+        if (locationList == null || locationList.isEmpty()) {
+            locationList = locationService.listOfLocation();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("locationList", locationList);
+        }
+        List<Location> filteredLocations = new ArrayList<>();
+
+        for (Location location : locationList) {
+            if (location.getLabel().toLowerCase().startsWith(query.toLowerCase())) {
+                filteredLocations.add(location);
+            }
+        }
+        return filteredLocations;
+    }
+
     public List<Store> completeStore(String query) {
         storeList = (List<Store>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("storeList");
         if (storeList == null || storeList.isEmpty()) {
@@ -91,8 +107,13 @@ public class StoreBean implements Serializable{
                 filteredStores.add(store);
             }
         }
-
         return filteredStores;
+    }
+
+    public void onItemSelect(SelectEvent event) {
+        Location location = (Location) event.getObject();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Lokasyon Seçildi.", location.getLabel() + ", " + location.getExactAddressDesc()));
+
     }
 
     public Store getStore() {
@@ -118,7 +139,12 @@ public class StoreBean implements Serializable{
     public void setStoreList(List<Store> storeList) {
         this.storeList = storeList;
     }
-    
-     
-   
+
+    public List<Location> getLocationList() {
+        return locationList;
+    }
+
+    public void setLocationList(List<Location> locationList) {
+        this.locationList = locationList;
+    }
 }

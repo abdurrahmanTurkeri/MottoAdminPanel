@@ -85,7 +85,8 @@ public class StoreServiceImpl extends BaseServiceImpl implements StoreService {
     public void deleteStore(Store store) throws Exception {
         em = accessEntityManager();
         em.getTransaction().begin();
-        em.remove(store);
+        //em.remove(store);
+        em.remove(em.contains(store) ? store : em.merge(store));
         em.getTransaction().commit();
         em.close();
     }

@@ -44,7 +44,11 @@ public class Media implements Serializable {
     private String sourceType;
     
     
-  
+    private String mediaRowNo;
+    
+
+    
+    
   
    
 
@@ -90,7 +94,13 @@ public class Media implements Serializable {
         this.name = name;
     }
 
-   
+    public String getMediaRowNo() {
+        return mediaRowNo;
+    }
+
+    public void setMediaRowNo(String value) {
+        this.mediaRowNo = mediaRowNo;
+    }
 
 
     

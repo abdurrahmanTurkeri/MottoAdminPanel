@@ -79,7 +79,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
     public Product saveProduct(Product product) throws Exception {
         entityManager = accessEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(product);
+        entityManager.persist(em.contains(product) ? product : em.merge(product));
         entityManager.getTransaction().commit();
         entityManager.close();
         return product;

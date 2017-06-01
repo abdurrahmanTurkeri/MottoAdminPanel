@@ -23,7 +23,7 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl implements Produ
 
         em = accessEntityManager();
         em.getTransaction().begin();
-        em.persist(fetvaCategory);
+        em.persist(em.contains(fetvaCategory) ? fetvaCategory : em.merge(fetvaCategory));
         em.getTransaction().commit();
         em.close();
     }
@@ -33,14 +33,14 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl implements Produ
         em = accessEntityManager();
         List<ProductCategory> categoryList = new ArrayList<>();
         em.getTransaction().begin();
-        categoryList = em.createQuery("from PhotoCategory").getResultList();
+        categoryList = em.createQuery("from ProductCategory").getResultList();
         em.getTransaction().commit();
         em.close();
         return categoryList;
     }
-    
+
     @Override
-    public List<ProductCategory> listOfCategoryByBrand(String brandId){
+    public List<ProductCategory> listOfCategoryByBrand(String brandId) {
 
         List<ProductCategory> productCategoryList = new ArrayList<>();
         try {
@@ -65,6 +65,35 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl implements Produ
         em.remove(em.contains(fetvaCategory) ? fetvaCategory : em.merge(fetvaCategory));
         em.getTransaction().commit();
         em.close();
+    }
+
+    @Override
+    public void updateUpperCategory(ProductCategory productCategory, ProductCategory upperCategory) {
+        em = accessEntityManager();
+        ProductCategory data = em.find(ProductCategory.class, productCategory.getId());
+
+        em.getTransaction().begin();
+        if (data != null) {
+            data.setUpperCategory(upperCategory);
+        }
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public List<ProductCategory> listOfLeafCategory() {
+        List<ProductCategory> productCategoryList = new ArrayList<>();
+        try {
+            em = accessEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("from ProductCategory a where a.isLeaf=1");
+            productCategoryList = query.getResultList();
+            em.getTransaction().commit();
+            em.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return productCategoryList;
     }
 
 }

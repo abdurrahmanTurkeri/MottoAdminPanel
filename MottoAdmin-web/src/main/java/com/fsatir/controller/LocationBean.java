@@ -31,11 +31,11 @@ import org.primefaces.model.map.Marker;
  */
 @Named(value = "locationBean")
 @javax.faces.view.ViewScoped
-public class LocationBean implements Serializable{
+public class LocationBean implements Serializable {
 
     @Inject
     LocationService service;
-    
+
     @Inject
     StoreService storeService;
 
@@ -43,17 +43,15 @@ public class LocationBean implements Serializable{
     private Location selectedLocation;
 
     private List<Location> locationList;
-    
+
     private List<Store> selectedStoreList = new ArrayList<>();
 
     private List<Store> storeList = new ArrayList<>();
-    
-    
-     private MapModel draggableModel;
-     
+
+    private MapModel draggableModel;
+
     private Marker marker;
-    
-    
+
     /**
      * Creates a new instance of FetvaCayegoryManagedBean
      */
@@ -63,30 +61,33 @@ public class LocationBean implements Serializable{
     @PostConstruct
     public void init() {
         locationList = service.listOfLocation();
-        
-            draggableModel = new DefaultMapModel();
-          
+
+        draggableModel = new DefaultMapModel();
+
         //Shared coordinates
         LatLng coord1 = new LatLng(41.0078815, 29.1571111);
-          
+
         //Draggable
         draggableModel.addOverlay(new Marker(coord1, "Modoko"));
-        for(Marker premarker : draggableModel.getMarkers()) {
+        for (Marker premarker : draggableModel.getMarkers()) {
             premarker.setDraggable(true);
         }
     }
-    
-     public void onMarkerDrag(MarkerDragEvent event) {
+
+    public void onMarkerDrag(MarkerDragEvent event) {
         marker = event.getMarker();
         location.setLatitudeValue(String.valueOf(marker.getLatlng().getLat()));
-        location.setLongtitudeValue(String.valueOf(marker.getLatlng().getLng()) );
+        location.setLongtitudeValue(String.valueOf(marker.getLatlng().getLng()));
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Dragged", "Lat:" + marker.getLatlng().getLat() + ", Lng:" + marker.getLatlng().getLng()));
-        
-     }
+
+    }
 
     public void saveLocation() {
         try {
             service.saveLocation(location);
+            location = new Location();  // Sayfa yenilenmediği için locationId değişmiyor.LocationId'yi değiştirmek için. 
+            locationList = service.listOfLocation();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("locationList", locationList);
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
         }
@@ -97,8 +98,11 @@ public class LocationBean implements Serializable{
     public void deleteLocation() {
 
         try {
+
             service.deleteLocation(selectedLocation);
+            location = new Location();
             locationList = service.listOfLocation();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("locationList", locationList);
         } catch (Exception ex) {
             ex.printStackTrace();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
@@ -106,7 +110,7 @@ public class LocationBean implements Serializable{
         }
 
     }
-    
+
     public List<Store> completeStore(String query) {
         storeList = (List<Store>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("storeList");
         if (storeList == null || storeList.isEmpty()) {
@@ -123,13 +127,14 @@ public class LocationBean implements Serializable{
 
         return filteredStores;
     }
-    
-     public void onItemSelect(SelectEvent event) {
+
+    public void onItemSelect(SelectEvent event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Kategori eklendi.", ((Store) event.getObject()).getName()));
         selectedStoreList.add((Store) event.getObject());
 
     }
-     public void fillSelectedCategory(Location location) {
+
+    public void fillSelectedCategory(Location location) {
         selectedLocation = location;
     }
 
@@ -189,7 +194,4 @@ public class LocationBean implements Serializable{
         this.marker = marker;
     }
 
-    
-   
-   
 }

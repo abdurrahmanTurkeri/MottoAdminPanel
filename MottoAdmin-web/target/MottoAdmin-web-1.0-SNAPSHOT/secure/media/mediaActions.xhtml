@@ -10,23 +10,29 @@
 
     <ui:define name="content">
         <p:growl id="messages" showDetail="true"  />
-        
+
         <h:form id="insertForm" enctype="multipart/form-data">
-        <p:fieldset>
+            <p:fieldset>
                 <div class="formRowBasic width100">
                     <div class="formLabel" style="width: 28%"> 
                         <p:outputLabel id="fetvaCategoryLabel" for="fetvaCategorySelect" 
                                        value="Kategori Seçiniz"/>
                     </div>
                     <div class="formInput width60">
-                        <p:autoComplete id="fetvaCategorySelect" multiple="true" value="#{mediaManagedBean.categoryList}" completeMethod="#{mediaManagedBean.completeCategory}"
-                                        var="category" itemLabel="#{category.label}" itemValue="#{category}" converter="categoryConverter" forceSelection="true">
+                        <p:autoComplete id="fetvaCategorySelect" 
+                                        value="#{mediaManagedBean.selectedCategory}"
+                                        completeMethod="#{mediaManagedBean.completeCategory}"
+                                        var="category"
+                                        itemLabel="#{category.name}" 
+                                        itemValue="#{category}" 
+                                        converter="categoryConverter" 
+                                        forceSelection="true" dropdown="true">
                             <p:column style="width:10%">
-                                <h:outputText value="#{category.categoryOrder}" />
+                                <h:outputText value="#{category.name}" />
                             </p:column>
 
                             <p:column>
-                                <h:outputText value="#{category.name}" />
+                                <h:outputText value="#{category.label}" />
                             </p:column>
                             <p:ajax event="itemSelect" listener="#{mediaManagedBean.onItemSelect}" update="messages" />
                         </p:autoComplete>
@@ -37,117 +43,72 @@
 
                 <div class="formRowBasic width70">
                     <div class="formLabel width40">        
-                        <p:outputLabel id="urlLabel" for="urlInput" value="Url Adresi  "/>
+                        <p:outputLabel id="productNameLabel" for="productName" value="Ürün Adı"/>
                     </div>
                     <div class="formInput width50">
-                        <p:inputText placeholder="URL adresini giriniz " value="#{mediaManagedBean.media.url}" id="urlInput"
-                                     />
+                        <p:inputText value="#{mediaManagedBean.product.name}" id="productName"
+                                     placeholder="Ürün Adı"/>
                     </div>
                 </div>
 
-                <div class="formRowBasic width70">
-                    <div class="formLabel width40">        
-                        <p:outputLabel id="nameLabel" for="nameInput" value="İsim  "/>
-                    </div>
-                    <div class="formInput width50">
-                        <p:inputText placeholder="Dosya ismi  giriniz" value="#{mediaManagedBean.media.name}" id="nameInput"
-                                     />
-                    </div>
-                </div>
-            
-            <div class="formRowBasic width70">
-                    <div class="formLabel width40">        
-                        <p:outputLabel id="rowLabel" for="rowInput" value="Sıra No  "/>
-                    </div>
-                    <div class="formInput width50">
-                        <p:inputText placeholder="Sıra numarası giriniz" value="#{mediaManagedBean.media.mediaRowNo}" 
-                                     id="rowInput" />
-                    </div>
-                </div>
 
                 <div class="formRowBasic width70">
                     <div class="formLabel width40">        
-                        <p:outputLabel id="fileLabel" value="Dosya Seçiniz  "/>
+                        <p:outputLabel id="assetfileLabel" value="Ürün Resmi ve AssetBundle "/>
                     </div>
+
                     <div class="formInput width50">
                         <p:fileUpload fileUploadListener="#{mediaManagedBean.handleFileUpload}"
                                       update="messages"
                                       mode="advanced"  
-                                      sizeLimit="10000000"
-                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                                      multiple="true"
+                                      sizeLimit="1000000000000000"
+                                      />
                     </div>
                 </div>
 
 
-                <div class="formRowBasic width90">
-                    <div class="formLabel width70"></div>
-                    <div class="formInput width20">
-                        <p:commandButton action="#{mediaManagedBean.saveMedia()}" value="Dosyayı Kaydet" 
-                                         update=":insertForm:fileList"/>
-                    </div>
-                </div>          
-        </p:fieldset>
-            
-        <p:spacer  height="20" />
-            
-        <p:dataTable resizableColumns="true" id="fileList" var="media" 
-                     value="#{mediaManagedBean.mediaList}"
-                     rowKey="#{media.mediaRowNo}"
-                     selection="#{mediaManagedBean.selectedMediaList}">
-            
-            <p:column selectionMode="multiple" style="width: 3%;text-align: center;"></p:column>
-            <p:column headerText="No" style="width:10%;">#{media.mediaRowNo}</p:column>
-            <p:column headerText="Dosya İsmi">#{media.name}</p:column>
-            <p:column headerText="Dosya Tipi  ">#{media.type}</p:column>
-            
-            <p:column headerText="Görsel" style="text-align: center;">
-                <p:graphicImage value="#{mediaManagedBean.image}" width="50" height="50"  >
-                    <f:param name="imageID" value="#{media.id}"/>
-                </p:graphicImage>
-            </p:column>
-            <p:column headerText="Kullanıcı Adı">userName</p:column>
-                    
-            <f:facet name="header">
-                <p:commandButton process="fileList" update=":insertForm:multiMediaDetail" icon="ui-icon-extlink" value="Göster" oncomplete="PF('multiMediaDialog').show()" /> 
-                <p:commandButton process="fileList" update=":insertForm:multiMediaDeleteDetail" icon="ui-icon-trash" value="Sil" oncomplete="PF('multiMediaDeleteDialog').show()"/>  
-            </f:facet>
-            
-        </p:dataTable>
+                <ui:remove> 
+                    <div class="formRowBasic width90">
+                        <div class="formLabel width70"></div>
+                        <div class="formInput width20">
+                            <p:commandButton action="#{mediaManagedBean.saveMedia()}" value="Dosyayı Kaydet" 
+                                             />
+                        </div>
+                    </div>      
+                </ui:remove>    
+            </p:fieldset>
 
-            
-        <p:dialog header="Seçilen Görseller" widgetVar="multiMediaDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="200">
-            <p:outputPanel id="multiMediaDetail" style="text-align:center;">
-                <ui:repeat value="#{mediaManagedBean.selectedMediaList}" var="media">
-                    <h:outputText value="#{media.name}" style="display:block"/>
-                    <p:graphicImage value="#{mediaManagedBean.image}" style="display:inline" width="50" height="50"> 
+            <p:spacer  height="20" />
+
+            <ui:remove>            
+                <p:dataTable resizableColumns="true" id="fileList" var="media" 
+                             value="#{mediaManagedBean.mediaList}"
+                             rowKey="#{media.mediaRowNo}"
+                             selection="#{mediaManagedBean.selectedMediaList}">
+
+                    <p:column selectionMode="multiple" style="width: 3%;text-align: center;"></p:column>
+                    <p:column headerText="No" style="width:10%;">#{media.mediaRowNo}</p:column>
+                    <p:column headerText="Dosya İsmi">#{media.name}</p:column>
+                    <p:column headerText="Dosya Tipi  ">#{media.type}</p:column>
+
+                    <p:column headerText="Görsel" style="text-align: center;">
+                        <p:graphicImage value="#{mediaManagedBean.image}" width="50" height="50"  >
                             <f:param name="imageID" value="#{media.id}"/>
-                    </p:graphicImage> 
-                    <p:separator />
-                </ui:repeat>
-            </p:outputPanel>
-        </p:dialog>
-            
-         <p:dialog header="Silinecek Görseller" widgetVar="multiMediaDeleteDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true" width="200">
-            <p:outputPanel id="multiMediaDeleteDetail" style="text-align:center;">
-                <ui:repeat value="#{mediaManagedBean.selectedMediaList}" var="media">
-                    <h:outputText value="#{media.name}" style="display:block"/>
-                    <p:graphicImage value="#{mediaManagedBean.image}" style="display:inline" width="50" height="50"> 
-                            <f:param name="imageID" value="#{media.id}"/>
-                    </p:graphicImage> 
-                    <p:separator />                    
-                </ui:repeat>
-                     <p:spacer  height="20" />
-                     <h:outputText value="Silmek istediğinize emin misiniz?" style="display:block"/>
-                     <p:commandButton  update="messages :insertForm:fileList" icon="ui-icon-trash" value="Sil" 
-                                       action="#{mediaManagedBean.deleteSelectedMedia()}" 
-                                       oncomplete="PF('multiMediaDeleteDialog').hide()">
-                          
-                     </p:commandButton> 
-                    
-            </p:outputPanel>
-        </p:dialog>   
-            
-     </h:form>
+                        </p:graphicImage>
+                    </p:column>
+                    <p:column headerText="Kullanıcı Adı">userName</p:column>
+
+                    <f:facet name="header">
+                        <p:commandButton process="fileList" update=":insertForm:multiMediaDetail" icon="ui-icon-extlink" value="Göster" oncomplete="PF('multiMediaDialog').show()" /> 
+                        <p:commandButton process="fileList" update=":insertForm:multiMediaDeleteDetail" icon="ui-icon-trash" value="Sil" oncomplete="PF('multiMediaDeleteDialog').show()"/>  
+                    </f:facet>
+
+                </p:dataTable>
+
+
+            </ui:remove>
+        </h:form>
     </ui:define>
 
 </ui:composition>

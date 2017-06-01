@@ -27,7 +27,6 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-
 /**
  *
  * @author abdurrahmanturkeri
@@ -38,8 +37,6 @@ public class MediaRsController {
 
     @Inject
     MediaService mediaService;
-    
-    
 
     /**
      * Creates a new instance of FetvaRsController
@@ -48,7 +45,7 @@ public class MediaRsController {
     }
 
     @GET
-    @Path("/media/list/category/{param}/{noDetail}")
+    @Path("/list/category/{param}/{noDetail}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public List<Media> getMediaList(@PathParam("param") String categoryId,
             @PathParam("noDetail") String noDetail
@@ -69,12 +66,16 @@ public class MediaRsController {
     }
 
     @GET
-    @Path("/media/detail/{param}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Media getMediaDetail(@PathParam("param") String mediaId) {
+    @Path("/detail/{productCatId}/{productId}/{mediaName}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getMediaDetail(@PathParam("productCatId") String productCatId,
+            @PathParam("productId") String productId,
+            @PathParam("mediaName") String mediaName) {
         try {
-            Media media = mediaService.getMediaDetail(mediaId);
-            return media;
+            File file = new File(productCatId+"/"+productId+"/"+mediaName);
+            return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+                    .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"") //optional
+                    .build();
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
@@ -105,26 +106,26 @@ public class MediaRsController {
         return Response.status(200).entity(output).build();
 
     }
-    
+
     private void saveToFile(InputStream uploadedInputStream,
-        String uploadedFileLocation) {
+            String uploadedFileLocation) {
 
-    try {
-        OutputStream out = null;
-        int read = 0;
-        byte[] bytes = new byte[1024];
+        try {
+            OutputStream out = null;
+            int read = 0;
+            byte[] bytes = new byte[1024];
 
-        out = new FileOutputStream(new File(uploadedFileLocation));
-        while ((read = uploadedInputStream.read(bytes)) != -1) {
-            out.write(bytes, 0, read);
+            out = new FileOutputStream(new File(uploadedFileLocation));
+            while ((read = uploadedInputStream.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+
+            e.printStackTrace();
         }
-        out.flush();
-        out.close();
-    } catch (IOException e) {
 
-        e.printStackTrace();
     }
-
-}
 
 }
