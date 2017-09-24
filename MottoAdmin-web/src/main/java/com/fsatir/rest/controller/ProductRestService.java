@@ -6,7 +6,9 @@
 package com.fsatir.rest.controller;
 
 import com.fsatir.service.MediaService;
+import com.fsatir.service.ProductService;
 import com.fsatir.types.Media;
+import com.fsatir.types.Product;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,33 +33,25 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
  *
  * @author abdurrahmanturkeri
  */
-@Path("/media")
+@Path("/product")
 @RequestScoped
-public class MediaRsController {
+public class ProductRestService {
 
     @Inject
-    MediaService mediaService;
+    ProductService productService;
 
     /**
      * Creates a new instance of FetvaRsController
      */
-    public MediaRsController() {
+    public ProductRestService() {
     }
 
     @GET
-    @Path("/list/category/{param}/{noDetail}")
+    @Path("/category/{categoryParam}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public List<Media> getMediaList(@PathParam("param") String categoryId,
-            @PathParam("noDetail") String noDetail
-    ) {
+    public List<Product> getMediaList(@PathParam("categoryParam") String categoryId) {
         try {
-            List<Media> result = null;
-
-            if (noDetail != null && noDetail.equals("true")) {
-
-            } else {
-                result = mediaService.listOfMediaByCategory(categoryId);
-            }
+            List<Product> result = productService.listOfProductByCategory(categoryId);
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -72,7 +66,7 @@ public class MediaRsController {
             @PathParam("productId") String productId,
             @PathParam("mediaName") String mediaName) {
         try {
-            File file = new File(productCatId+"/"+productId+"/"+mediaName);
+            File file = new File(productCatId + "/" + productId + "/" + mediaName);
             return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
                     .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"") //optional
                     .build();

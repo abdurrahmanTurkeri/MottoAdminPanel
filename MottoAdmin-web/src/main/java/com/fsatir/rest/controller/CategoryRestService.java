@@ -14,16 +14,17 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author abdurrahmanturkeri
+ * Kategori listesini donen Servis
  */
 @Path("/kategori")
 @RequestScoped
-public class PhotoCategoryRsController {
+public class CategoryRestService {
 
     @Inject
     ProductCategoryService categoryService;
@@ -31,18 +32,40 @@ public class PhotoCategoryRsController {
     /**
      * Creates a new instance of FetvaRsController
      */
-    public PhotoCategoryRsController() {
+    public CategoryRestService() {
     }
-
+    /**
+     * Tum kategoriler doner
+     * @return 
+     */
     @GET
-    @Path("/kategoriListesi")
+    @Path("/")
     @Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
-    public CategoryContainer getFetvaCategoryList() {
+    public CategoryContainer getCategoryList() {
         try {
             List<ProductCategory> result = categoryService.listOfCategory();
-
             CategoryContainer categoryContainer = new CategoryContainer();
-            categoryContainer.setMediaCategoryList(result);
+            categoryContainer.setCategoryList(result);
+            return categoryContainer;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    /**
+     * 
+     * @param categoryId 
+     * @return categoryId  parameterisinin altinda kategori var ise onu doner
+     */
+    @GET
+    @Path("/{categoryId}")
+    @Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
+    public CategoryContainer getFetvaCategoryList(@PathParam("categoryId")String categoryId) {
+        try {
+            List<ProductCategory> result = categoryService.categoryListByUpperCategory(categoryId);
+            CategoryContainer categoryContainer = new CategoryContainer();
+            categoryContainer.setCategoryList(result);
             return categoryContainer;
 
         } catch (Exception ex) {

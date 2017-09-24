@@ -32,7 +32,7 @@ public class Brand implements Serializable {
     private String id;
 
     private String website;
-    
+
     private String name;
 
     /*
@@ -43,11 +43,6 @@ public class Brand implements Serializable {
     private Date startDate;
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    
-    
-    
-  
-   
 
     public String getId() {
         return id;
@@ -81,7 +76,6 @@ public class Brand implements Serializable {
         this.type = type;
     }
 
-  
     public Date getStartDate() {
         return startDate;
     }
@@ -97,7 +91,10 @@ public class Brand implements Serializable {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return name;
+    }
 
 }

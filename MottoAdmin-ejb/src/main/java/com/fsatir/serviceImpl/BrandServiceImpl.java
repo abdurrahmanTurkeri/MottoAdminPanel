@@ -81,7 +81,7 @@ public class BrandServiceImpl extends BaseServiceImpl implements BrandService {
         
         em = accessEntityManager();
         em.getTransaction().begin();
-        em.remove(brand);
+        em.remove(em.contains(brand) ? brand : em.merge(brand));
         em.getTransaction().commit();
         em.close(); 
     }

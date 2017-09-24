@@ -17,15 +17,19 @@ import java.util.List;
 public class CategoryContainer {
     
     
-    private List<ProductCategory> mediaCategoryList;
+    private List<ProductCategory> categoryList;
 
-    public List<ProductCategory> getMediaCategoryList() {
-        return mediaCategoryList;
+    public List<ProductCategory> getCategoryList() {
+        return categoryList;
     }
 
-    public void setMediaCategoryList(List<ProductCategory> mediaCategoryList) {
-        this.mediaCategoryList = mediaCategoryList;
+    public void setCategoryList(List<ProductCategory> categoryList) {
+        this.categoryList = categoryList;
     }
+    
+    
+
+   
 
    
 

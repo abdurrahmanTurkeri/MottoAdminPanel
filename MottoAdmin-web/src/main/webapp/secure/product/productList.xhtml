@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 template="./../template/mainTemplate.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="content">
+        <p:growl id="messages" showDetail="true"  />
+
+        <h:form id="insertForm" enctype="multipart/form-data">
+         
+
+            <p:spacer  height="20" />
+
+         
+                <p:dataTable resizableColumns="true"  var="product"  id="productListTable"
+                             value="#{productManagedBean.productList}"
+                             rowKey="#{product.id}"
+                             selection="#{productManagedBean.datatableProductSelection}">
+
+                    <p:column selectionMode="multiple" style="width: 3%;text-align: center;"></p:column>
+                    <p:column visible="center" headerText="No" style="width:10%;">#{product.id}</p:column>
+                    <p:column headerText="Ürün İsmi">#{product.name}</p:column>
+                    <p:column headerText="Ürün Marka  ">#{product.brand.name}</p:column>
+                    <p:column headerText="Kategoriler" filterBy="#{product.productCategoryList.get(0)}" 
+                              filterFunction="#{productManagedBean.filterByCategory}" >
+                        <f:facet name="filter">
+                            <p:selectOneMenu  label="Kategori Seçiniz" onchange="PF('productListTable').filter()" id="categoryFilter" panelStyle="width:125px" scrollHeight="150">
+                                <f:selectItem  itemValue="-1" itemLabel="Hepsi"/>
+                                <f:selectItem  itemValue="0" itemLabel="Boş Olanlar"/>
+                                <f:selectItems value="#{productManagedBean.categoryList}" var="category"  itemValue="#{category.name}"
+                                               itemLabel="#{category.name}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        #{product.productCategoryList.get(0)}
+                    
+                    </p:column>
+                    <p:column headerText="Thumb." style="text-align: center;">
+                        <p:graphicImage value="#{product.imageUrl}" width="50" height="50"  >
+                        </p:graphicImage>
+                    </p:column>
+                </p:dataTable>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

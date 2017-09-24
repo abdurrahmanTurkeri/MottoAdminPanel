@@ -10,18 +10,20 @@ import java.util.List;
 import javax.ejb.Local;
 
 @Local
-public interface ProductCategoryService extends BaseService{
-    
+public interface ProductCategoryService extends BaseService {
+
     public void saveCategory(ProductCategory productCategory) throws Exception;
-    
+
     public List<ProductCategory> listOfCategory();
-    
+
     public List<ProductCategory> listOfCategoryByBrand(String brandId);
-    
+
     public List<ProductCategory> listOfLeafCategory();
-    
-    public void deleteCategory(ProductCategory productCategory) throws Exception ;
-    
+
+    public void deleteCategory(ProductCategory productCategory) throws Exception;
+
     public void updateUpperCategory(ProductCategory productCategory, ProductCategory upperCategory);
-    
+
+    public List<ProductCategory> categoryListByUpperCategory(String categoryId);
+
 }

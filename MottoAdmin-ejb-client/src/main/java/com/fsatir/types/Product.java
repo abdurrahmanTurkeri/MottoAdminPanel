@@ -35,7 +35,7 @@ public class Product implements Serializable {
     
     private String name;
  
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER )
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER )
     private List<ProductCategory> productCategoryList;
     
     private String imageUrl;
@@ -50,7 +50,7 @@ public class Product implements Serializable {
     @OneToOne(fetch = FetchType.EAGER,targetEntity = Inventory.class)
     private Inventory inventory;
     
-    @ManyToOne(cascade = CascadeType.ALL,targetEntity = Brand.class)
+    @ManyToOne(cascade = CascadeType.DETACH,targetEntity = Brand.class)
     private Brand brand;
 
     public String getId() {
@@ -118,6 +118,14 @@ public class Product implements Serializable {
 
     public void setProductCategoryList(List<ProductCategory> productCategoryList) {
         this.productCategoryList = productCategoryList;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
    

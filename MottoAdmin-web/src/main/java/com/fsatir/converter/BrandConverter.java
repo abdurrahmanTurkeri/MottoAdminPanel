@@ -7,7 +7,7 @@ package com.fsatir.converter;
 
 
 
-import com.fsatir.types.ProductCategory;
+import com.fsatir.types.Brand;
 import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -18,21 +18,21 @@ import javax.faces.convert.FacesConverter;
  *
  * @author abdurrahmanturkeri
  */
-@FacesConverter("categoryConverter")
-public class CategoryConverter implements Converter {
+@FacesConverter("brandConverter")
+public class BrandConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        ProductCategory productCategory=null;    
+        Brand brandSelected=null;    
         if (value != null && value.trim().length() > 0) {
-            List<ProductCategory> categoryList = (List<ProductCategory>) context.getCurrentInstance().getExternalContext().getSessionMap().get("categoryList");
+            List<Brand> brandList = (List<Brand>) context.getCurrentInstance().getExternalContext().getSessionMap().get("brandList");
 
-            for (ProductCategory f : categoryList) {
-                if (f.getId().equals(value)) {
-                  productCategory=f;  
+            for (Brand brand : brandList) {
+                if (brand.getName().equals(value)) {
+                  brandSelected=brand;  
                 }
             }
-            return productCategory;
+            return brandSelected;
         } else {
             return null;
         }
@@ -42,7 +42,7 @@ public class CategoryConverter implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (value != null) {
-            return String.valueOf(((ProductCategory) value).getId());
+            return String.valueOf(((Brand) value).getName());
         } else {
             return null;
         }

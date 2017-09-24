@@ -96,4 +96,23 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl implements Produ
         return productCategoryList;
     }
 
+    @Override
+    public List<ProductCategory> categoryListByUpperCategory(String categoryId) {
+        List<ProductCategory> productCategoryList = new ArrayList<>();
+        try {
+            em = accessEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("from ProductCategory a where a.upperCategory.id=:categoryId");
+            
+            query.setParameter("categoryId", categoryId);
+            productCategoryList = query.getResultList();
+            em.getTransaction().commit();
+            em.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return productCategoryList;
+    }
+
 }

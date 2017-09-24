@@ -31,7 +31,9 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
         List<Product> productList = new ArrayList<>();
         try {
             entityManager = accessEntityManager();
-            entityManager.getTransaction().begin();
+             if(!entityManager.getTransaction().isActive()){
+                entityManager.getTransaction().begin();
+               }
             productList = entityManager.createQuery("from Product").getResultList();
             entityManager.getTransaction().commit();
             entityManager.close();
@@ -78,7 +80,9 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
     @Override
     public Product saveProduct(Product product) throws Exception {
         entityManager = accessEntityManager();
-        entityManager.getTransaction().begin();
+        if(!entityManager.getTransaction().isActive()){
+         entityManager.getTransaction().begin();
+        }
         entityManager.persist(em.contains(product) ? product : em.merge(product));
         entityManager.getTransaction().commit();
         entityManager.close();
