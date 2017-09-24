@@ -6,17 +6,16 @@
 package com.fsatir.types;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -40,16 +39,14 @@ public class Brand implements Serializable {
      *Media Type jpg avi mp4 mpeg  
      */
     private String type;
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
     
     
-    @ManyToOne
-    private Company company;
     
-    @OneToMany(targetEntity = ProductCategory.class)
-    private List<ProductCategory> productCategoryList;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    private SiteUser siteUser;
+  
    
 
     public String getId() {
@@ -84,31 +81,22 @@ public class Brand implements Serializable {
         this.type = type;
     }
 
-    public List<ProductCategory> getProductCategoryList() {
-        return productCategoryList;
+  
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setProductCategoryList(List<ProductCategory> productCategoryList) {
-        this.productCategoryList = productCategoryList;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public SiteUser getSiteUser() {
-        return siteUser;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setSiteUser(SiteUser siteUser) {
-        this.siteUser = siteUser;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    
     
     
 

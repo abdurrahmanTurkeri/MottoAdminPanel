@@ -35,8 +35,8 @@ public class Product implements Serializable {
     
     private String name;
  
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER )
-    private ProductCategory productCategory;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER )
+    private List<ProductCategory> productCategoryList;
     
     private String imageUrl;
     
@@ -49,6 +49,9 @@ public class Product implements Serializable {
     
     @OneToOne(fetch = FetchType.EAGER,targetEntity = Inventory.class)
     private Inventory inventory;
+    
+    @ManyToOne(cascade = CascadeType.ALL,targetEntity = Brand.class)
+    private Brand brand;
 
     public String getId() {
         return id;
@@ -83,13 +86,7 @@ public class Product implements Serializable {
         this.inventory = inventory;
     }
 
-    public ProductCategory getProductCategory() {
-        return productCategory;
-    }
-
-    public void setProductCategory(ProductCategory productCategory) {
-        this.productCategory = productCategory;
-    }
+   
 
     public String getImageUrl() {
         return imageUrl;
@@ -114,6 +111,18 @@ public class Product implements Serializable {
     public void setAssetName(String assetName) {
         this.assetName = assetName;
     }
+
+    public List<ProductCategory> getProductCategoryList() {
+        return productCategoryList;
+    }
+
+    public void setProductCategoryList(List<ProductCategory> productCategoryList) {
+        this.productCategoryList = productCategoryList;
+    }
+
+   
+    
+    
 
 
 

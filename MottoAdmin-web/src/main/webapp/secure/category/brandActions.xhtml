@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/mainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="insertForm">
+            <p:growl id="msgs" showDetail="true" />
+            <p:fieldset>
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="nameInputLabel" for="nameInput" value="Marka İsmi"/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText value="#{brandBean.brand.name}" id="nameInput"
+                                     placeholder="Marka İsmi"/>
+                    </div>
+                </div>
+                
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="websiteLabel" for="websiteInput" value="Website"/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText value="#{brandBean.brand.website}" id="websiteInput"
+                                     placeholder="Website "/>
+                    </div>
+                </div>
+                <div class="formRowBasic width90">
+                    <div class="formLabel width70"></div>
+                    <div class="formInput width20">
+                        <p:commandButton action="#{brandBean.saveBrand()}" value="Markayı Kaydet" update=":insertForm:categoryList :insertForm:msgs"/>
+                    </div>
+                </div>
+             
+            </p:fieldset>
+        
+
+        <p:contextMenu for="categoryList">
+            <p:menuitem value="Sil" update=":insertForm:categoryList" icon="ui-icon-close" actionListener="#{brandBean.deleteBrand()}"/>
+        </p:contextMenu>
+
+         <p:dataTable resizableColumns="true" id="categoryList" var="brand" 
+                      value="#{brandBean.brandList}" 
+                      rowKey="#{brand.id}"
+                     selection="#{brandBean.selectedBrand}" selectionMode="single">
+             <p:column visible="false" headerText="Id" style="width: 100px;" >#{brand.id}</p:column>
+             <p:column headerText="İsim">#{brand.name}</p:column>
+             <p:column headerText="Etiket ">#{brand.website}</p:column>
+             <p:column headerText="Kategori Sıra">#{brand.startDate}</p:column>
+             <p:column headerText="Üst Kategori" >#{brand.endDate}</p:column>
+           
+        </p:dataTable> 
+            
+
+        <p:dialog id="fetvaList" header="Fetva Listesi">
+
+        </p:dialog>
+     </h:form>       
+
+    </ui:define>
+
+</ui:composition>

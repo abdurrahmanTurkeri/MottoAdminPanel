@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 template="./../template/mainTemplate.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="content">
+        <p:growl id="messages" showDetail="true"  />
+
+        <h:form id="insertForm" enctype="multipart/form-data">
+            <p:fieldset>
+                <div class="formRowBasic width100">
+                    <div class="formLabel" style="width: 28%"> 
+                        <p:outputLabel id="categoryLabel" for="categorySelect" 
+                                       value="Kategori Seçiniz"/>
+                    </div>
+                    <div class="formInput width60">
+                        <p:selectCheckboxMenu id="categorySelect" value="#{productManagedBean.selectedCategoryList}" label="Categories" multiple="true"
+                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px" converter="categoryConverter">
+                            <f:selectItems value="#{productManagedBean.categoryList}" />
+                        </p:selectCheckboxMenu>
+                    </div>
+                </div>
+                
+                <div class="formRowBasic width100">
+                    <div class="formLabel" style="width: 28%"> 
+                        <p:outputLabel id="brandLabel" for="brandSelect" 
+                                       value="Marka Seçiniz"/>
+                    </div>
+                    <div class="formInput width60">
+                        <p:selectCheckboxMenu id="brandSelect" value="#{productManagedBean.selectedBrand}" label="Brands" multiple="true"
+                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px" >
+                            <f:selectItems value="#{productManagedBean.brandList}" var="brand" itemLabel="#{brand.name}" itemValue="#{brand.id}" />
+                        </p:selectCheckboxMenu>
+                    </div>
+                </div>
+
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="productNameLabel" for="productName" value="Ürün Adı"/>
+                    </div>
+                    <div class="formInput width50">
+                        <p:inputText value="#{productManagedBean.product.name}" id="productName"
+                                     placeholder="Ürün Adı"/>
+                    </div>
+                </div>
+
+
+                <div class="formRowBasic width70">
+                    <div class="formLabel width40">        
+                        <p:outputLabel id="assetfileLabel" value="Ürün Resmi ve AssetBundle "/>
+                    </div>
+
+                    <div class="formInput width50">
+                        <p:fileUpload fileUploadListener="#{productManagedBean.handleFileUpload}"
+                                      update="messages"
+                                      mode="advanced"  
+                                      multiple="true"
+                                      sizeLimit="1000000000000000"
+                                      />
+                    </div>
+                </div>
+
+
+                <ui:remove> 
+                    <div class="formRowBasic width90">
+                        <div class="formLabel width70"></div>
+                        <div class="formInput width20">
+                            <p:commandButton action="#{productManagedBean.saveMedia()}" value="Dosyayı Kaydet" 
+                                             />
+                        </div>
+                    </div>      
+                </ui:remove>    
+            </p:fieldset>
+
+            <p:spacer  height="20" />
+
+            <ui:remove>            
+                <p:dataTable resizableColumns="true" id="fileList" var="media" 
+                             value="#{productManagedBean.mediaList}"
+                             rowKey="#{media.mediaRowNo}"
+                             selection="#{mediaManagedBean.selectedMediaList}">
+
+                    <p:column selectionMode="multiple" style="width: 3%;text-align: center;"></p:column>
+                    <p:column headerText="No" style="width:10%;">#{media.mediaRowNo}</p:column>
+                    <p:column headerText="Dosya İsmi">#{media.name}</p:column>
+                    <p:column headerText="Dosya Tipi  ">#{media.type}</p:column>
+
+                    <p:column headerText="Görsel" style="text-align: center;">
+                        <p:graphicImage value="#{productManagedBean.image}" width="50" height="50"  >
+                            <f:param name="imageID" value="#{media.id}"/>
+                        </p:graphicImage>
+                    </p:column>
+                    <p:column headerText="Kullanıcı Adı">userName</p:column>
+
+                    <f:facet name="header">
+                        <p:commandButton process="fileList" update=":insertForm:multiMediaDetail" icon="ui-icon-extlink" value="Göster" oncomplete="PF('multiMediaDialog').show()" /> 
+                        <p:commandButton process="fileList" update=":insertForm:multiMediaDeleteDetail" icon="ui-icon-trash" value="Sil" oncomplete="PF('multiMediaDeleteDialog').show()"/>  
+                    </f:facet>
+
+                </p:dataTable>
+
+
+            </ui:remove>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

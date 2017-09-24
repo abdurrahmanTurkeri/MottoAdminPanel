@@ -59,7 +59,7 @@
                      rowKey="#{location.id}"
                      selection="#{locationBean.selectedLocation}" selectionMode="single">
             <p:ajax event="rowDblselect" listener="#{locationBean.fillSelectedCategory(location)}" update=":insertForm"/>
-            <p:column headerText="Id" style="width: 100px;">#{location.id}</p:column>
+            <p:column visible="false" headerText="Id" style="width: 100px;">#{location.id}</p:column>
             <p:column headerText="İsim">#{location.label}</p:column>
             <p:column headerText="Longtitude ">#{location.longtitudeValue}</p:column>
             <p:column headerText="Latitude">#{location.latitudeValue}</p:column>

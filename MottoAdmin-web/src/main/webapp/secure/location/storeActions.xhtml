@@ -14,7 +14,7 @@
                 <div class="formRowBasic width100">
                     <div class="formLabel" style="width: 28%"> 
                         <p:outputLabel id="fetvaCategoryLabel" for="fetvaCategorySelect" 
-                                       value="Kategori Seçiniz"/>
+                                       value="Lokasyon Seçiniz"/>
                     </div>
                     <div class="formInput width60">
                         <p:autoComplete id="fetvaCategorySelect"  value="#{storeBean.store.location}" 
@@ -66,7 +66,7 @@
                      rowKey="#{store.id}"
                      selection="#{storeBean.selectedStore}" selectionMode="single">
             <p:ajax event="rowDblselect" listener="#{storeBean.fillSelectedStore(store)}" update=":insertForm"/>
-            <p:column headerText="Id" style="width: 100px;">#{store.id}</p:column>
+            <p:column visible="false" headerText="Id" style="width: 100px;">#{store.id}</p:column>
             <p:column headerText="İsim">#{store.name}</p:column>
             <p:column headerText="Longtitude ">#{store.location.longtitudeValue}</p:column>
             <p:column headerText="Latitude">#{store.location.latitudeValue}</p:column>
