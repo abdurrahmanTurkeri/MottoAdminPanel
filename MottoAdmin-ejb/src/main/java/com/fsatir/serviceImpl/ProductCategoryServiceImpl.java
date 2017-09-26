@@ -102,9 +102,11 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl implements Produ
         try {
             em = accessEntityManager();
             em.getTransaction().begin();
-            Query query = em.createQuery("from ProductCategory a where a.upperCategory.id=:categoryId");
-            
-            query.setParameter("categoryId", categoryId);
+            //Query query = em.createQuery("from ProductCategory a where a.upperCategory.id=:categoryId");
+            String nativeQuery = "db.ProductCategory.find({'upperCategory_id':'"+categoryId+"'})";
+            System.out.println(nativeQuery);
+            Query query = em.createNativeQuery(nativeQuery,ProductCategory.class);
+           // query.setParameter("categoryId", categoryId);
             productCategoryList = query.getResultList();
             em.getTransaction().commit();
             em.close();
